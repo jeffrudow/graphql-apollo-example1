@@ -10,6 +10,7 @@ const typeDefs = gql`
     rocket: Rocket
     isBooked: Boolean!
   }
+
   type Query {
     launches: [Launch]!
     launch(id: ID!): Launch

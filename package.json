@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -12,6 +13,7 @@
   "dependencies": {
     "apollo-datasource-rest": "^0.7.0",
     "apollo-server": "^2.10.1",
-    "graphql": "^14.6.0"
+    "graphql": "^14.6.0",
+    "nodemon": "^2.0.2"
   }
 }
