@@ -4,11 +4,12 @@
 https: module.exports = {
   Query: {
     player: (_, { id }, { dataSources }) =>
-      dataSources.playerAPI.getPlayerById({ playerID: id })
-    //dataSources.playerAPI.getPlayerById({ id })
-    //player: (parent, args) => {
-    //  const { id } = args;
-    //  return fetch(`${baseURL}${id}`).then(res => res.json());
-    //}
+      dataSources.playerAPI.getPlayerById({ playerID: id }),
+    batting: (_, { playerId }, { dataSources }) =>
+      dataSources.playerAPI.getBattingByPlayerId({ playerID: playerId })
+    /*     playerBatting: (_, { id }, { dataSources }) => {
+      dataSources.playerAPI.getPlayerById({ playerID: id }),
+        dataSources.playerAPI.getBattingByPlayerId({ playerID: id });
+    }*/
   }
 };

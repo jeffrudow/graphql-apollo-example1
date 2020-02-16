@@ -10,7 +10,6 @@ class PlayerAPI extends RESTDataSource {
   }
 
   async getPlayerById({ playerID }) {
-    //console.log("playerId", playerID);
     const response = await this.get("getPlayerInfo.php", {
       playerID: playerID
     });
@@ -29,6 +28,32 @@ class PlayerAPI extends RESTDataSource {
       dob: new Date(
         player.birthYear + "-" + player.birthMonth + "-" + player.birthDay
       )
+    };
+  }
+
+  async getBattingByPlayerId({ playerID }) {
+    //console.log("playerId", playerID);
+    const response = await this.get("getPlayerBatting.php", {
+      playerID: playerID
+    });
+    //console.log(response);
+    //return this.battingReducer(response[0]);
+    //console.log(response.map(batting => this.battingReducer(batting)));
+    return Array.isArray(response)
+      ? response.map(batting => this.battingReducer(batting))
+      : [];
+  }
+
+  battingReducer(batting) {
+    return {
+      playerId: batting.playerID,
+      yearId: batting.yearID,
+      teamId: batting.teamID,
+      games: batting.G,
+      atBats: batting.AB,
+      hits: batting.H,
+      hr: batting.HR,
+      avg: (batting.H / batting.AB).toFixed(3)
     };
   }
 }
