@@ -1,11 +1,15 @@
-# Readme file
+# RS27 GraphQL API
 
-lasjasdaslfhl
+The is a GraphQL POC that combine data from two API's
 
-## stuff
+## Source API's
 
-lksdjlksadjlkjds
+Below are the source API's for this GraphQL project
 
-### more stuff
+### Player Info
 
-khjkkjhkjhjkhjk
+getPlayerInfo
+
+### Player Batting
+
+getPlayerBatting
