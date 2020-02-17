@@ -5,7 +5,8 @@ const { RESTDataSource } = require("apollo-datasource-rest");
 class PlayerAPI extends RESTDataSource {
   constructor() {
     super();
-    this.baseURL = `https://www.rs27baseball.com/api/getPlayerInfo.php?playerID=`;
+    //this.baseURL = `https://www.rs27baseball.com/api/getPlayerInfo.php?playerID=`;
+    this.baseURL = `https://www.rs27baseball.com/api/`;
     //this.baseURL = `https://www.rs27baseball.com/api/getPlayerInfo.php?playerID=${playerId}`;
   }
 
@@ -17,6 +18,29 @@ class PlayerAPI extends RESTDataSource {
     //const response = await this.get("getPlayerInfo.php", { playerId });
     //return this.playerReducer(response[0]);
     return this.playerReducer(response);
+  }
+
+  async getPlayerByIdWithBatting({ playerID }) {
+    const response = await this.get("getPlayerInfo.php", {
+      playerID: playerID
+    });
+    const responseB = await this.get("getPlayerBatting.php", {
+      playerID: playerID
+    });
+    let responsePlayer = this.playerReducer(response);
+    console.log("Player", responsePlayer);
+    let responseBatting = responseB.map(batting =>
+      this.battingReducer(batting)
+    );
+    console.log("Batting", responseBatting);
+    let responseFinal = {
+      ...responsePlayer,
+      batting: [...responseBatting]
+    };
+
+    //const response = await this.get("getPlayerInfo.php", { playerId });
+    //return this.playerReducer(response[0]);
+    return responseFinal;
   }
 
   playerReducer(player) {
