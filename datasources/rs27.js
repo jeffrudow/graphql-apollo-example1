@@ -14,58 +14,52 @@ class PlayerAPI extends RESTDataSource {
     const response = await this.get("getPlayerInfo.php", {
       playerID: playerID
     });
-    //console.log(response);
-    //const response = await this.get("getPlayerInfo.php", { playerId });
-    //return this.playerReducer(response[0]);
     return this.playerReducer(response);
   }
 
   async getPlayerByIdWithBatting({ playerID }) {
-    const response = await this.get("getPlayerInfo.php", {
+    const responseP = await this.get("getPlayerInfo.php", {
       playerID: playerID
     });
     const responseB = await this.get("getPlayerBatting.php", {
       playerID: playerID
     });
-    let responsePlayer = this.playerReducer(response);
-    console.log("Player", responsePlayer);
+    let responsePlayer = this.playerReducer(responseP);
     let responseBatting = responseB.map(batting =>
       this.battingReducer(batting)
     );
-    console.log("Batting", responseBatting);
-    let responseFinal = {
+    let response = {
       ...responsePlayer,
       batting: [...responseBatting]
     };
+    return response;
+  }
 
-    //const response = await this.get("getPlayerInfo.php", { playerId });
-    //return this.playerReducer(response[0]);
-    return responseFinal;
+  async getBattingByPlayerId({ playerID }) {
+    const response = await this.get("getPlayerBatting.php", {
+      playerID: playerID
+    });
+    return Array.isArray(response)
+      ? response.map(batting => this.battingReducer(batting))
+      : [];
   }
 
   playerReducer(player) {
+    let birthMonthFinal = player.birthMonth.toString();
+    let birthDayFinal = player.birthDay.toString();
+    if (player.birthMonth < 10) {
+      birthMonthFinal = "0" + player.birthMonth;
+    }
+    if (player.birthDay < 10) {
+      birthDayFinal = "0" + player.birthDay;
+    }
     return {
       id: player.playerID,
       firstName: player.nameFirst,
       lastName: player.nameLast,
       country: player.birthCountry,
-      dob: new Date(
-        player.birthYear + "-" + player.birthMonth + "-" + player.birthDay
-      )
+      dob: player.birthYear + "-" + birthMonthFinal + "-" + birthDayFinal
     };
-  }
-
-  async getBattingByPlayerId({ playerID }) {
-    //console.log("playerId", playerID);
-    const response = await this.get("getPlayerBatting.php", {
-      playerID: playerID
-    });
-    //console.log(response);
-    //return this.battingReducer(response[0]);
-    //console.log(response.map(batting => this.battingReducer(batting)));
-    return Array.isArray(response)
-      ? response.map(batting => this.battingReducer(batting))
-      : [];
   }
 
   battingReducer(batting) {

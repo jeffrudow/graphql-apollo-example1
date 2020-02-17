@@ -8,9 +8,5 @@ https: module.exports = {
       dataSources.playerAPI.getPlayerByIdWithBatting({ playerID: id }),
     batting: (_, { playerId }, { dataSources }) =>
       dataSources.playerAPI.getBattingByPlayerId({ playerID: playerId })
-    /*     playerBatting: (_, { id }, { dataSources }) => {
-      dataSources.playerAPI.getPlayerById({ playerID: id }),
-        dataSources.playerAPI.getBattingByPlayerId({ playerID: id });
-    }*/
   }
 };
