@@ -1,5 +1,4 @@
 //www.apollographql.com/docs/tutorial/resolvers/
-//const baseURL = "https://www.rs27baseball.com/api/getPlayerInfo.php?playerID=";
 
 https: module.exports = {
   Query: {

@@ -5,9 +5,7 @@ const { RESTDataSource } = require("apollo-datasource-rest");
 class PlayerAPI extends RESTDataSource {
   constructor() {
     super();
-    //this.baseURL = `https://www.rs27baseball.com/api/getPlayerInfo.php?playerID=`;
     this.baseURL = `https://www.rs27baseball.com/api/`;
-    //this.baseURL = `https://www.rs27baseball.com/api/getPlayerInfo.php?playerID=${playerId}`;
   }
 
   async getPlayerById({ playerID }) {
@@ -45,14 +43,8 @@ class PlayerAPI extends RESTDataSource {
   }
 
   playerReducer(player) {
-    let birthMonthFinal = player.birthMonth.toString();
-    let birthDayFinal = player.birthDay.toString();
-    if (player.birthMonth < 10) {
-      birthMonthFinal = "0" + player.birthMonth;
-    }
-    if (player.birthDay < 10) {
-      birthDayFinal = "0" + player.birthDay;
-    }
+    let birthMonthFinal = dateHelper(player.birthMonth);
+    let birthDayFinal = dateHelper(player.birthDay);
     return {
       id: player.playerID,
       firstName: player.nameFirst,
@@ -63,6 +55,10 @@ class PlayerAPI extends RESTDataSource {
   }
 
   battingReducer(batting) {
+    let avg = 0;
+    if (batting.AB > 0) {
+      avg = (batting.H / batting.AB).toFixed(3);
+    }
     return {
       playerId: batting.playerID,
       yearId: batting.yearID,
@@ -71,9 +67,16 @@ class PlayerAPI extends RESTDataSource {
       atBats: batting.AB,
       hits: batting.H,
       hr: batting.HR,
-      avg: (batting.H / batting.AB).toFixed(3)
+      avg: avg
     };
   }
+}
+
+function dateHelper(dateNum) {
+  if (dateNum < 10) {
+    return "0" + dateNum;
+  }
+  return dateNum;
 }
 
 module.exports = PlayerAPI;

@@ -4,7 +4,6 @@ const { ApolloServer } = require("apollo-server");
 
 //const typeDefs = require("./schema");
 const typeDefsRs27 = require("./schemaRs27");
-//console.log(typeDefsRs27);
 
 //const { createStore } = require("./utils");
 
@@ -13,7 +12,6 @@ const resolversRs27 = require("./resolversRs27");
 
 //const LaunchAPI = require("./datasources/launch");
 const PlayerAPI = require("./datasources/rs27");
-
 //const UserAPI = require("./datasources/user");
 
 //const store = createStore();
@@ -21,10 +19,8 @@ const PlayerAPI = require("./datasources/rs27");
 const server = new ApolloServer({
   //typeDefs,
   typeDefs: typeDefsRs27,
-
   //resolvers,
   resolvers: resolversRs27,
-
   dataSources: () => ({
     //launchAPI: new LaunchAPI(),
     playerAPI: new PlayerAPI()
